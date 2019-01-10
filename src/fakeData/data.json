@@ -1,0 +1,22 @@
+[
+    {
+        "code": 1,
+        "description": "John",
+        "valid": true
+    },
+    {
+        "code": 2,
+        "description": "Paul",
+        "valid": true
+    },
+    {
+        "code": 3,
+        "description": "George",
+        "valid": true
+    },
+    {
+        "code": 4,
+        "description": "Ringo",
+        "valid": false
+    }
+]

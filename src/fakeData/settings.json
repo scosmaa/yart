@@ -1,0 +1,24 @@
+[
+    {
+        "headerContent": "Codice",
+        "headerClass": "code-header",
+        "fieldName": "code",
+        "fieldClass": "code-cell",
+        "width": "100"
+    },
+    {
+        "headerContent": "Descrizione",
+        "headerClass": "description-header",
+        "fieldName": "description",
+        "fieldClass": "description-cell",
+        "width": "100",
+        "maxWidth": "300"
+    },
+    {
+        "headerContent": "Valido",
+        "headerClass": "valid-header",
+        "fieldName": "valid",
+        "fieldClass": "valid-cell",
+        "width": "50"
+    }
+]
