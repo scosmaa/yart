@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import {orderBy} from 'lodash'
-
+import TablePaginator from './TablePaginator/TablePaginator'
 import './Table.scss'
 
 export default class Table extends Component {
@@ -32,11 +32,22 @@ export default class Table extends Component {
 
         this.state.data = data
       }
+
+      this._changePage = this._changePage.bind(this)
     }
 
     paginate (array, page_size, page_number) {
         --page_number; // because pages logically start with 1, but technically with 0
         return array.slice(page_number * page_size, (page_number + 1) * page_size);
+      }
+    
+      _changePage(data, pageSize, pageNumber) {
+          debugger
+          const newPage = this.paginate(data, pageSize, pageNumber)
+          this.setState({
+              data: newPage,
+              curentPage: pageNumber
+          })
       }
 
     _makeInternalId(columns) {
@@ -71,12 +82,13 @@ export default class Table extends Component {
     }
 
     render() {
-        const {data, columns} = this.state
+        const {data, columns, pageSize, currentPage, originalData} = this.state
 
         return (
         <div className="yart">
             {this._createHeader(columns)}
             {this._createBody(data, columns)}
+            <TablePaginator totalItems={originalData.length} pageSize={pageSize} selectedPage={currentPage} onChangePage={(index) => this._changePage(originalData, pageSize, index)}></TablePaginator>
         </div>
         )
     }
@@ -134,6 +146,6 @@ Table.defaultProps = {
     columns: [],
     sortField: null,
     sortDirection: null,
-    pageSize: 3,
-    currentPage: 2
+    pageSize: 1,
+    currentPage: 1
   };

@@ -1,0 +1,53 @@
+$header_height: 30px;
+
+.mw-table-paginator {
+    height: $header_height;
+    line-height: $header_height;
+    text-align: center;
+    .page-selector {
+        user-select: none;
+        padding: 0 6px;
+        text-decoration: none;
+        margin: 6px 1px 0;
+        color: #131313;
+        cursor: pointer;
+        &.selected {
+            background-color: #f26f0c;
+        }
+        &:hover:not(.selected) {
+            background-color: #585858;
+            cursor: pointer;
+        }
+    }
+    .page-arrow {
+        user-select: none;
+        cursor: pointer;
+        font-size: 20px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        margin: 6px 1px 0;
+        padding: 0 10px;
+        &:hover {
+            background-color: #585858;
+            cursor: pointer;
+        }
+    }
+}
+.mw-c-white-theme {
+    .mw-table-paginator {
+        background-color: #e5e5e5;
+        color: #606060;
+    }
+    .page-selector {
+        color: #606060;
+        &:hover:not(.selected) {
+            background-color: silver;
+            cursor: pointer;
+        }
+    }
+    .page-arrow {
+        &:hover {
+            background-color: silver;
+        }
+    }
+}
