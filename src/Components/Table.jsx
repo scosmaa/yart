@@ -6,14 +6,24 @@ import {orderBy} from 'lodash'
 import TablePaginator from './TablePaginator/TablePaginator'
 import './Table.scss'
 
+import ClientTableProvider from './dataProvider/ClientTableProvider'
+
 export default class Table extends Component {
     constructor(props) {
       super(props)
-        let data = this._makeInternalId(props.data)
+        
+       this.dataProvider = new ClientTableProvider({
+          originalData: this._makeInternalId(props.data),
+          sortField: props.sortField,
+          sortDirection: props.sortDirection,
+          pageSize: props.pageSize,
+          currentPage: props.currentPage
+        })
+
+        let data = this.dataProvider.getData()
 
       this.state = {
-        originalData: this._makeInternalId(props.data),
-        data: data,
+        data: this.dataProvider.get,
         columns: this._makeInternalId(props.columns),
         sortField: props.sortField,
         sortDirection: props.sortDirection,
@@ -25,24 +35,16 @@ export default class Table extends Component {
         if (props.sortField) {
             data = this.sortBy(props.sortField).data
         }
-        debugger
-        if(props.pageSize > 0) {
-            data = this.paginate(data, props.pageSize, props.currentPage)
-        }
-
         this.state.data = data
       }
 
       this._changePage = this._changePage.bind(this)
     }
 
-    paginate (array, page_size, page_number) {
-        --page_number; // because pages logically start with 1, but technically with 0
-        return array.slice(page_number * page_size, (page_number + 1) * page_size);
-      }
+    
     
       _changePage(data, pageSize, pageNumber) {
-          debugger
+        this.dataProvider.cha()
           const newPage = this.paginate(data, pageSize, pageNumber)
           this.setState({
               data: newPage,
@@ -82,13 +84,17 @@ export default class Table extends Component {
     }
 
     render() {
-        const {data, columns, pageSize, currentPage, originalData} = this.state
-
+        const {data, columns, pageSize, currentPage } = this.state
+      debugger
         return (
         <div className="yart">
             {this._createHeader(columns)}
-            {this._createBody(data, columns)}
-            <TablePaginator totalItems={originalData.length} pageSize={pageSize} selectedPage={currentPage} onChangePage={(index) => this._changePage(originalData, pageSize, index)}></TablePaginator>
+            {this._createBody(this.dataProvider.getData(), columns)}
+            <TablePaginator 
+              totalItems={this.dataProvider.count()} 
+              pageSize={this.dataProvider.getPageSize()} 
+              selectedPage={this.dataProvider.getSelectedPage()}
+              onChangePage={(index) => this._changePage(index)}></TablePaginator>
         </div>
         )
     }
@@ -146,6 +152,6 @@ Table.defaultProps = {
     columns: [],
     sortField: null,
     sortDirection: null,
-    pageSize: 1,
+    pageSize: 4,
     currentPage: 1
   };

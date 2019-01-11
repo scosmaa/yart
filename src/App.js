@@ -4,8 +4,6 @@ import './App.scss';
 
 import columns from './fakeData/settings.json'
 import data from './fakeData/data.json'
-
-console.log(columns)
 class App extends Component {
   render() {
     return (
