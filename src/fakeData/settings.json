@@ -4,21 +4,25 @@
         "headerClass": "code-header",
         "fieldName": "code",
         "fieldClass": "code-cell",
-        "width": "100"
+        "style": {
+            "width": "100px",
+            "minWidth": "800px"
+        }
     },
     {
         "headerContent": "Descrizione",
         "headerClass": "description-header",
         "fieldName": "description",
         "fieldClass": "description-cell",
-        "width": "100",
-        "maxWidth": "300"
+        "style": {
+            "width": "100px",
+            "maxWidth": "300px"
+        }
     },
     {
         "headerContent": "Valido",
         "headerClass": "valid-header",
         "fieldName": "valid",
-        "fieldClass": "valid-cell",
-        "width": "50"
+        "fieldClass": "valid-cell"
     }
 ]

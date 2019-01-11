@@ -1,3 +1,12 @@
 .yart {
-    border: 1px solid
+    border: 1px solid;
+
+    .yart-thead {
+        display: flex;
+        
+        .yart-th  {
+            flex: 100 0 auto;
+        }
+    }
+
 }

@@ -23,10 +23,14 @@ export default class Table extends Component {
 
     _createHeader(columns) {
         console.log(columns)
-        return <div className="yart-header">
-            {columns.map(elem => <div>{elem.headerContent}</div>)}
+        return <div className="yart-thead">
+            {columns.map(elem => {
+                return <div className="yart-th" style={elem.style}>{elem.headerContent}</div>
+            }
+            )}
         </div>
     }
+
     render() {
         const {data, columns} = this.state
 
