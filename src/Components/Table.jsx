@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import {orderBy} from 'lodash'
+
 import './Table.scss'
 
 export default class Table extends Component {
@@ -11,7 +13,9 @@ export default class Table extends Component {
       this.state = {
          originalData: this._makeInternalId(props.data),
          data: this._makeInternalId(props.data),
-         columns: this._makeInternalId(props.columns)
+         columns: this._makeInternalId(props.columns),
+         sortField: props.sortField,
+         sortDirection: props.sortDirection,
       }
     }
 
@@ -26,7 +30,7 @@ export default class Table extends Component {
         console.log(columns)
         return <div className="yart-thead">
             {columns.map(elem => {
-                return <div className="yart-th" style={elem.style}>{elem.headerContent}</div>
+                return <div className="yart-th" style={elem.style} onClick={(evt) => this._onThClick(evt, elem)}>{elem.headerContent}</div>
             }
             )}
         </div>
@@ -65,16 +69,42 @@ export default class Table extends Component {
                 return <span>{value}</span>
         }
     }
+
+    _onThClick(evt, columnDef) {
+        if(columnDef.sortable) {
+            this.sortBy(columnDef)
+        }
+    }
+
+    sortBy(columnDef) {
+        let {sortField, sortDirection} = this.state
+        if (sortField === columnDef.fieldName) {
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'
+        } else {
+            sortField = columnDef.fieldName
+            sortDirection = 'desc'
+        }
+        this.setState({
+            data: orderBy(this.state.originalData, [sortField], [sortDirection]),
+            sortField,
+            sortDirection
+        })
+    }
+
 }
 
 Table.propTypes = {
     originalData: PropTypes.array,
     data: PropTypes.array,
-    columns: PropTypes.array
+    columns: PropTypes.array,
+    sortField: PropTypes.string,
+    sortDirection: PropTypes.string
 }
 
 Table.defaultProps = {
     originalData: [],
     data: [],
-    columns: []
+    columns: [],
+    sortField: null,
+    sortDirection: null
   };

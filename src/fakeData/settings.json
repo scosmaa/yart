@@ -4,6 +4,7 @@
         "headerClass": "code-header",
         "fieldName": "code",
         "fieldClass": "code-cell",
+        "sortable": true,
         "type": "numeric",
         "style": {
             "width": "100px"
@@ -14,6 +15,7 @@
         "headerClass": "description-header",
         "fieldName": "description",
         "fieldClass": "description-cell",
+        "sortable": true,
         "type": "string",
         "style": {
             "width": "100px"
@@ -25,6 +27,7 @@
         "type": "checkbox",
         "fieldName": "valid",
         "fieldClass": "valid-cell",
+        "sortable": true,
         "style": {
             "width": "100px"
         }
