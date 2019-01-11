@@ -9,4 +9,12 @@
         }
     }
 
+    .yart-row {
+        display: flex;
+        
+        .yart-td  {
+            flex: 100 0 auto;
+        }
+    }
+
 }

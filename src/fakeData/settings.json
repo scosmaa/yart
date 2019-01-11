@@ -4,9 +4,9 @@
         "headerClass": "code-header",
         "fieldName": "code",
         "fieldClass": "code-cell",
+        "type": "numeric",
         "style": {
-            "width": "100px",
-            "minWidth": "800px"
+            "width": "100px"
         }
     },
     {
@@ -14,15 +14,19 @@
         "headerClass": "description-header",
         "fieldName": "description",
         "fieldClass": "description-cell",
+        "type": "string",
         "style": {
-            "width": "100px",
-            "maxWidth": "300px"
+            "width": "100px"
         }
     },
     {
         "headerContent": "Valido",
         "headerClass": "valid-header",
+        "type": "checkbox",
         "fieldName": "valid",
-        "fieldClass": "valid-cell"
+        "fieldClass": "valid-cell",
+        "style": {
+            "width": "100px"
+        }
     }
 ]

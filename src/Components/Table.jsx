@@ -9,7 +9,8 @@ export default class Table extends Component {
       super(props)
     
       this.state = {
-         data: props.data,
+         originalData: this._makeInternalId(props.data),
+         data: this._makeInternalId(props.data),
          columns: this._makeInternalId(props.columns)
       }
     }
@@ -31,23 +32,49 @@ export default class Table extends Component {
         </div>
     }
 
+    _createBody(data,columns) {
+        return <div className="yart-tbody">
+            {data.map(elem => {
+                return <div key={elem.__id} className="yart-row">
+                {columns.map(column => {
+                    console.log(data, [column.fieldName])
+                    return <div className="yart-td" style={column.style}>{this._renderContent(column.type, elem[column.fieldName])}</div>
+                })}
+                </div>
+            }
+            )}
+        </div>
+    }
+
     render() {
         const {data, columns} = this.state
 
         return (
         <div className="yart">
             {this._createHeader(columns)}
+            {this._createBody(data, columns)}
         </div>
         )
+    }
+
+    _renderContent(type, value) {
+        switch (type) {
+            case 'checkbox':
+                return <input type="checkbox" value={value} checked={value}></input>        
+            default:
+                return <span>{value}</span>
+        }
     }
 }
 
 Table.propTypes = {
+    originalData: PropTypes.array,
     data: PropTypes.array,
     columns: PropTypes.array
 }
 
 Table.defaultProps = {
+    originalData: [],
     data: [],
     columns: []
   };
