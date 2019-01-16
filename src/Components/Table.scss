@@ -3,18 +3,31 @@
 
     .yart-thead {
         display: flex;
-        
-        .yart-th  {
+
+        .yart-th {
             flex: 100 0 auto;
         }
     }
 
     .yart-row {
         display: flex;
-        
-        .yart-td  {
+
+        .yart-td {
             flex: 100 0 auto;
         }
     }
-
+    .sm,
+    .lg {
+        display: none;
+    }
+    @media only screen and (min-width: 960px) {
+        .sm {
+            display: block;
+        }
+    }
+    @media only screen and (min-width: 1500px) {
+        .lg {
+            display: block;
+        }
+    }
 }
