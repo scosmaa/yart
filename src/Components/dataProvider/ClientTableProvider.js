@@ -30,7 +30,6 @@ export default class ClientTableProvider {
     }
 
     sortBy(fieldName) {
-        debugger
         if (this.sortField === fieldName) {
             this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc'
         } else {

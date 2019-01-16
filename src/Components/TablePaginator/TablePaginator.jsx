@@ -22,8 +22,8 @@ export default class TablePaginator extends Component {
     }
 
     renderPagesNumber() {
-        const numberOfPages = parseInt(this.props.totalItems / this.props.pageSize)
-        debugger
+        const numberOfPages = Math.ceil(this.props.totalItems / this.props.pageSize)
+
         const result = [
             <span key="faAngleDoubleLeft" className="page-arrow" onClick={this.goToFirstPage}>
                 <FontAwesomeIcon icon={faAngleDoubleLeft} onClick={this.goToFirstPage} />
@@ -87,7 +87,7 @@ export default class TablePaginator extends Component {
     }
 
     incPage() {
-        const numberOfPages = parseInt(this.props.totalItems / this.props.pageSize) + 1
+        const numberOfPages = Math.ceil(this.props.totalItems / this.props.pageSize) + 1
         if (this.state.selectedPage < numberOfPages - 1) {
             this.setNewPage(this.state.selectedPage + 1)
         }
@@ -100,7 +100,7 @@ export default class TablePaginator extends Component {
     }
 
     goToLastPage() {
-        const numberOfPages = parseInt(this.props.totalItems / this.props.pageSize)
+        const numberOfPages = Math.ceil(this.props.totalItems / this.props.pageSize)
         this.setNewPage(numberOfPages)
     }
 }

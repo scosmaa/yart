@@ -1,45 +1,70 @@
 {
-    "restUri": "",
-    "sortField": null,
-    "sortDirection": null,
-    "pageSize": 2,
-    "currentPage": 1,
-    "columns": [
-        {
-            "headerContent": "Codice",
-            "headerClass": "code-header",
-            "fieldName": "code",
-            "fieldClass": "code-cell",
-            "sortable": true,
-            "type": "numeric",
-            "responsive": "sm",
-            "style": {
-                "width": "100px"
-            }
-        },
-        {
-            "headerContent": "Descrizione",
-            "headerClass": "description-header",
-            "fieldName": "description",
-            "fieldClass": "description-cell",
-            "sortable": true,
-            "type": "string",
-            "responsive": "md",
-            "style": {
-                "width": "100px"
-            }
-        },
-        {
-            "headerContent": "Valido",
-            "headerClass": "valid-header",
-            "type": "checkbox",
-            "fieldName": "valid",
-            "fieldClass": "valid-cell",
-            "sortable": true,
-            "responsive": "lg",
-            "style": {
-                "width": "100px"
-            }
-        }
-    ]
+  "restUri": "",
+  "sortField": null,
+  "sortDirection": null,
+  "pageSize": 3,
+  "currentPage": 1,
+  "columns": [
+    {
+      "headerContent": "Codice",
+      "headerClass": "code-header",
+      "fieldName": "code",
+      "fieldClass": "code-cell",
+      "sortable": true,
+      "type": "numeric",
+      "responsive": "sm",
+      "style": {
+        "width": "100px"
+      }
+    },
+    {
+      "headerContent": "EmptyValue",
+      "headerClass": "empty-header",
+      "fieldName": "asd",
+      "fieldClass": "empty-cell",
+      "emptyValue": "-",
+      "sortable": true,
+      "type": "numeric",
+      "responsive": "sm",
+      "style": {
+        "width": "100px"
+      }
+    },
+    {
+      "headerContent": "ArrayValue",
+      "headerClass": "array-header",
+      "fieldName": "array[1]",
+      "fieldClass": "array-cell",
+      "sortable": true,
+      "type": "numeric",
+      "responsive": "sm",
+      "style": {
+        "width": "100px"
+      }
+    },
+    {
+      "headerContent": "Descrizione",
+      "headerClass": "description-header",
+      "fieldName": "description",
+      "fieldClass": "description-cell",
+      "sortable": true,
+      "type": "string",
+      "responsive": "md",
+      "style": {
+        "width": "100px"
+      }
+    },
+    {
+      "headerContent": "Valido",
+      "headerClass": "valid-header",
+      "type": "checkbox",
+      "fieldName": "valid",
+      "fieldClass": "valid-cell",
+      "sortable": true,
+      "responsive": "lg",
+      "style": {
+        "width": "100px"
+      }
+    }
+  ]
 }

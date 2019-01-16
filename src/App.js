@@ -7,7 +7,7 @@ import data from './fakeData/data.json'
 class App extends Component {
     render() {
         return (
-            <div className="App">
+            <div className="App" style={{ height: '750px' }}>
                 <Table data={data} settings={settings} />
             </div>
         )

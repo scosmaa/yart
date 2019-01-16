@@ -1,22 +1,26 @@
 [
-    {
-        "code": 1,
-        "description": "John",
-        "valid": true
-    },
-    {
-        "code": 2,
-        "description": "Paul",
-        "valid": true
-    },
-    {
-        "code": 3,
-        "description": "George",
-        "valid": true
-    },
-    {
-        "code": 4,
-        "description": "Ringo",
-        "valid": false
-    }
+  {
+    "code": 1,
+    "array": [4, 5],
+    "description": "John",
+    "valid": true
+  },
+  {
+    "code": 2,
+    "array": [6, 55],
+    "description": "Paul",
+    "valid": true
+  },
+  {
+    "code": 3,
+    "array": [7, 555],
+    "description": "George",
+    "valid": true
+  },
+  {
+    "code": 4,
+    "array": [8, 5555],
+    "description": "Ringo",
+    "valid": false
+  }
 ]
