@@ -1,35 +1,45 @@
-[
-    {
-        "headerContent": "Codice",
-        "headerClass": "code-header",
-        "fieldName": "code",
-        "fieldClass": "code-cell",
-        "sortable": true,
-        "type": "numeric",
-        "style": {
-            "width": "100px"
+{
+    "restUri": "",
+    "sortField": null,
+    "sortDirection": null,
+    "pageSize": 4,
+    "currentPage": 1,
+    "columns": [
+        {
+            "headerContent": "Codice",
+            "headerClass": "code-header",
+            "fieldName": "code",
+            "fieldClass": "code-cell",
+            "sortable": true,
+            "type": "numeric",
+            "responsive": "sm",
+            "style": {
+                "width": "100px"
+            }
+        },
+        {
+            "headerContent": "Descrizione",
+            "headerClass": "description-header",
+            "fieldName": "description",
+            "fieldClass": "description-cell",
+            "sortable": true,
+            "type": "string",
+            "responsive": "md",
+            "style": {
+                "width": "100px"
+            }
+        },
+        {
+            "headerContent": "Valido",
+            "headerClass": "valid-header",
+            "type": "checkbox",
+            "fieldName": "valid",
+            "fieldClass": "valid-cell",
+            "sortable": true,
+            "responsive": "lg",
+            "style": {
+                "width": "100px"
+            }
         }
-    },
-    {
-        "headerContent": "Descrizione",
-        "headerClass": "description-header",
-        "fieldName": "description",
-        "fieldClass": "description-cell",
-        "sortable": true,
-        "type": "string",
-        "style": {
-            "width": "100px"
-        }
-    },
-    {
-        "headerContent": "Valido",
-        "headerClass": "valid-header",
-        "type": "checkbox",
-        "fieldName": "valid",
-        "fieldClass": "valid-cell",
-        "sortable": true,
-        "style": {
-            "width": "100px"
-        }
-    }
-]
+    ]
+}

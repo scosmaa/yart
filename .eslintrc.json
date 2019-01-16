@@ -1,0 +1,6 @@
+{
+    "extends": ["standard", "plugin:react/recommended", "prettier", "prettier/react"],
+    "rules": {
+        "indent": ["error", 4]
+    }
+}

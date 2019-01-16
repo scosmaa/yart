@@ -1,115 +1,130 @@
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import {orderBy} from 'lodash'
+import { orderBy } from 'lodash'
 import TablePaginator from './TablePaginator/TablePaginator'
 import './Table.scss'
 
 import ClientTableProvider from './dataProvider/ClientTableProvider'
+import ClientSettingsProvider from './dataProvider/ClientSettingsProvider'
 
 export default class Table extends Component {
     constructor(props) {
-      super(props)
-        
-       this.dataProvider = new ClientTableProvider({
-          originalData: this._makeInternalId(props.data),
-          sortField: props.sortField,
-          sortDirection: props.sortDirection,
-          pageSize: props.pageSize,
-          currentPage: props.currentPage
-        })
+        super(props)
 
-        let data = this.dataProvider.getData()
-
-      this.state = {
-        data: this.dataProvider.get,
-        columns: this._makeInternalId(props.columns),
-        sortField: props.sortField,
-        sortDirection: props.sortDirection,
-        pageSize: props.pageSize,
-        currentPage: props.currentPage
-     }
-
-     if (props.pageSize !== -1 || props.sortField) {
-        if (props.sortField) {
-            data = this.sortBy(props.sortField).data
+        // if (props.pageSize !== -1 || props.sortField) {
+        //     if (props.sortField) {
+        //         data = this.sortBy(props.sortField).data
+        //     }
+        //     this.state.data = data
+        // }
+        this.state = {
+            data: null,
+            settings: null
         }
-        this.state.data = data
-      }
 
-      this._changePage = this._changePage.bind(this)
+        this._changePage = this._changePage.bind(this)
     }
 
-    
-    
-      _changePage(data, pageSize, pageNumber) {
-        this.dataProvider.cha()
-          const newPage = this.paginate(data, pageSize, pageNumber)
-          this.setState({
-              data: newPage,
-              curentPage: pageNumber
-          })
-      }
+    async componentWillMount() {
+        this.settingsProvider = new ClientSettingsProvider({
+            settings: this.props.settings
+        })
 
-    _makeInternalId(columns) {
-        return columns.map((elem, id) => {return {
-            ...elem,
-            __id: id
-        }})
+        const settings = await this.settingsProvider.getSettings()
+
+        this.dataProvider = new ClientTableProvider({
+            originalData: this.props.data,
+            sortField: settings.sortField,
+            sortDirection: settings.sortDirection,
+            pageSize: settings.pageSize,
+            currentPage: settings.currentPage
+        })
+
+        this.setState({
+            data: await this.dataProvider.getData(),
+            settings: await this.settingsProvider.getSettings()
+        })
+    }
+
+    _changePage(data, pageSize, pageNumber) {
+        this.dataProvider.cha()
+        const newPage = this.paginate(data, pageSize, pageNumber)
+        this.setState({
+            data: newPage,
+            curentPage: pageNumber
+        })
     }
 
     _createHeader(columns) {
         console.log(columns)
-        return <div className="yart-thead">
-            {columns.map(elem => {
-                return <div className="yart-th" style={elem.style} onClick={(evt) => this._onThClick(evt, elem)}>{elem.headerContent}</div>
-            }
-            )}
-        </div>
+        return (
+            <div className="yart-thead">
+                {columns.map(elem => {
+                    return (
+                        <div className={`yart-th ${elem.responsive}`} style={elem.style} onClick={evt => this._onThClick(evt, elem)}>
+                            {elem.headerContent}
+                        </div>
+                    )
+                })}
+            </div>
+        )
     }
 
-    _createBody(data,columns) {
-        return <div className="yart-tbody">
-            {data.map(elem => {
-                return <div key={elem.__id} className="yart-row">
-                {columns.map(column => {
-                    console.log(data, [column.fieldName])
-                    return <div className="yart-td" style={column.style}>{this._renderContent(column.type, elem[column.fieldName])}</div>
+    _createBody(data, columns) {
+        return (
+            <div className="yart-tbody">
+                {data.map(elem => {
+                    return (
+                        <div key={elem.__id} className="yart-row">
+                            {columns.map(column => {
+                                console.log(data, [column.fieldName])
+                                return (
+                                    <div className={`yart-td ${column.responsive}`} style={column.style}>
+                                        {this._renderContent(column.type, elem[column.fieldName])}
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    )
                 })}
-                </div>
-            }
-            )}
-        </div>
+            </div>
+        )
     }
 
     render() {
-        const {data, columns, pageSize, currentPage } = this.state
-      debugger
+        const { data, settings } = this.state
+        if (!data || !settings) {
+            return null
+        }
+        console.log(data)
+        console.log(settings)
+        debugger
         return (
-        <div className="yart">
-            {this._createHeader(columns)}
-            {this._createBody(this.dataProvider.getData(), columns)}
-            <TablePaginator 
-              totalItems={this.dataProvider.count()} 
-              pageSize={this.dataProvider.getPageSize()} 
-              selectedPage={this.dataProvider.getSelectedPage()}
-              onChangePage={(index) => this._changePage(index)}></TablePaginator>
-        </div>
+            <div className="yart">
+                {this._createHeader(settings.columns)}
+                {this._createBody(this.dataProvider.getData(), settings.columns)}
+                <TablePaginator
+                    totalItems={this.dataProvider.count()}
+                    pageSize={this.dataProvider.getPageSize()}
+                    selectedPage={this.dataProvider.getSelectedPage()}
+                    onChangePage={index => this._changePage(index)}
+                />
+            </div>
         )
     }
 
     _renderContent(type, value) {
         switch (type) {
             case 'checkbox':
-                return <input type="checkbox" value={value} checked={value}></input>        
+                return <input type="checkbox" value={value} checked={value} />
             default:
                 return <span>{value}</span>
         }
     }
 
     _onThClick(evt, columnDef) {
-        if(columnDef.sortable) {
+        if (columnDef.sortable) {
             const data = this.sortBy(columnDef)
             this.setState({
                 ...data
@@ -119,7 +134,7 @@ export default class Table extends Component {
 
     sortBy(columnDef) {
         const fieldName = typeof columnDef === 'string' ? columnDef : columnDef.fieldName
-        let {sortField, sortDirection} = this.state
+        let { sortField, sortDirection } = this.state
         if (sortField === fieldName) {
             sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'
         } else {
@@ -133,13 +148,12 @@ export default class Table extends Component {
             sortDirection
         }
     }
-
 }
 
 Table.propTypes = {
     originalData: PropTypes.array,
     data: PropTypes.array,
-    columns: PropTypes.array,
+    settings: PropTypes.object,
     sortField: PropTypes.string,
     sortDirection: PropTypes.string,
     pageSize: PropTypes.number,
@@ -149,9 +163,9 @@ Table.propTypes = {
 Table.defaultProps = {
     originalData: [],
     data: [],
-    columns: [],
+    settings: null,
     sortField: null,
     sortDirection: null,
     pageSize: 4,
     currentPage: 1
-  };
+}
