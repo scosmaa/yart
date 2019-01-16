@@ -18,6 +18,34 @@
       }
     },
     {
+      "headerContent": "Anno",
+      "headerClass": "year-header",
+      "fieldName": "birth",
+      "fieldClass": "year-cell",
+      "sortable": true,
+      "type": "numeric",
+      "responsive": "sm",
+      "style": {
+        "width": "100px"
+      }
+    },
+    {
+      "headerContent": "Code * Anno",
+      "headerClass": "composed-header",
+      "fieldName": "",
+      "fieldClass": "year-cell",
+      "sortable": false,
+      "type": "composed",
+      "typeOptions": {
+        "fieldA": "birth",
+        "fieldB": "code"
+      },
+      "responsive": "sm",
+      "style": {
+        "width": "100px"
+      }
+    },
+    {
       "headerContent": "EmptyValue",
       "headerClass": "empty-header",
       "fieldName": "asd",
