@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { orderBy } from 'lodash'
 import TablePaginator from './TablePaginator/TablePaginator'
 import './Table.scss'
 
@@ -12,12 +11,6 @@ export default class Table extends Component {
     constructor(props) {
         super(props)
 
-        // if (props.pageSize !== -1 || props.sortField) {
-        //     if (props.sortField) {
-        //         data = this.sortBy(props.sortField).data
-        //     }
-        //     this.state.data = data
-        // }
         this.state = {
             data: null,
             settings: null
@@ -43,26 +36,16 @@ export default class Table extends Component {
 
         this.setState({
             data: await this.dataProvider.getData(),
-            settings: await this.settingsProvider.getSettings()
-        })
-    }
-
-    _changePage(data, pageSize, pageNumber) {
-        this.dataProvider.cha()
-        const newPage = this.paginate(data, pageSize, pageNumber)
-        this.setState({
-            data: newPage,
-            curentPage: pageNumber
+            settings: settings
         })
     }
 
     _createHeader(columns) {
-        console.log(columns)
         return (
             <div className="yart-thead">
                 {columns.map(elem => {
                     return (
-                        <div className={`yart-th ${elem.responsive}`} style={elem.style} onClick={evt => this._onThClick(evt, elem)}>
+                        <div key={elem.__id} className={`yart-th ${elem.responsive}`} style={elem.style} onClick={evt => this._onThClick(evt, elem)}>
                             {elem.headerContent}
                         </div>
                     )
@@ -80,7 +63,7 @@ export default class Table extends Component {
                             {columns.map(column => {
                                 console.log(data, [column.fieldName])
                                 return (
-                                    <div className={`yart-td ${column.responsive}`} style={column.style}>
+                                    <div key={column.__id} className={`yart-td ${column.responsive}`} style={column.style}>
                                         {this._renderContent(column.type, elem[column.fieldName])}
                                     </div>
                                 )
@@ -97,13 +80,10 @@ export default class Table extends Component {
         if (!data || !settings) {
             return null
         }
-        console.log(data)
-        console.log(settings)
-        debugger
         return (
             <div className="yart">
                 {this._createHeader(settings.columns)}
-                {this._createBody(this.dataProvider.getData(), settings.columns)}
+                {this._createBody(data, settings.columns)}
                 <TablePaginator
                     totalItems={this.dataProvider.count()}
                     pageSize={this.dataProvider.getPageSize()}
@@ -123,30 +103,20 @@ export default class Table extends Component {
         }
     }
 
-    _onThClick(evt, columnDef) {
+    async _onThClick(evt, columnDef) {
         if (columnDef.sortable) {
-            const data = this.sortBy(columnDef)
+            this.dataProvider.sortBy(columnDef.fieldName)
             this.setState({
-                ...data
+                data: await this.dataProvider.getData()
             })
         }
     }
 
-    sortBy(columnDef) {
-        const fieldName = typeof columnDef === 'string' ? columnDef : columnDef.fieldName
-        let { sortField, sortDirection } = this.state
-        if (sortField === fieldName) {
-            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'
-        } else {
-            sortField = fieldName
-            sortDirection = 'asc'
-        }
-
-        return {
-            data: orderBy(this.state.originalData, [sortField], [sortDirection]),
-            sortField,
-            sortDirection
-        }
+    async _changePage(pageNumber) {
+        const pageData = await this.dataProvider.changePage(pageNumber).getData()
+        this.setState({
+            data: pageData
+        })
     }
 }
 
