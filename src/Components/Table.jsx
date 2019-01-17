@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import TablePaginator from './TablePaginator/TablePaginator'
 import CellRenderer from './CellRenderer/CellRenderer'
+import EmbeddedFilter from './EmbeddedFilter/EmbeddedFilter'
 
 import './Table.scss'
 
@@ -19,6 +20,7 @@ export default class Table extends Component {
     }
 
     this._changePage = this._changePage.bind(this)
+    this._onFilterChange = this._onFilterChange.bind(this)
   }
 
   async componentWillMount() {
@@ -33,7 +35,8 @@ export default class Table extends Component {
       sortField: settings.sortField,
       sortDirection: settings.sortDirection,
       pageSize: settings.pageSize,
-      currentPage: settings.currentPage
+      currentPage: settings.currentPage,
+      filterFields: settings.filterFields
     })
 
     this.setState({
@@ -47,8 +50,10 @@ export default class Table extends Component {
       <div className="yart-thead">
         {columns.map(elem => {
           return (
-            <div key={elem.__id} className={`yart-th ${elem.responsive}`} style={elem.style} onClick={evt => this._onThClick(evt, elem)}>
-              {elem.headerContent}
+            <div key={elem.__id} className={`yart-th ${elem.responsive}`} style={elem.style}>
+              <span className={`${elem.sortable ? 'yart-sortable' : ''}`} onClick={evt => this._onThClick(evt, elem)}>
+                {elem.headerContent}
+              </span>
             </div>
           )
         })}
@@ -85,6 +90,7 @@ export default class Table extends Component {
     return (
       <div className="yart">
         {this._createHeader(settings.columns)}
+        <EmbeddedFilter columns={settings.columns} filter={this.dataProvider.getFilter()} onFilterChange={this._onFilterChange} />
         {this._createBody(data, settings.columns)}
         <TablePaginator
           totalItems={this.dataProvider.count()}
@@ -107,6 +113,14 @@ export default class Table extends Component {
 
   async _changePage(pageNumber) {
     const pageData = await this.dataProvider.changePage(pageNumber).getData()
+    this.setState({
+      data: pageData
+    })
+  }
+
+  async _onFilterChange(filterFields) {
+    debugger
+    const pageData = await this.dataProvider.filterAndSort(filterFields).getData()
     this.setState({
       data: pageData
     })

@@ -4,6 +4,10 @@
   "sortDirection": null,
   "pageSize": 3,
   "currentPage": 1,
+  "filterFields": {
+    "code": 1,
+    "description": "o"
+  },
   "columns": [
     {
       "headerContent": "Codice",
@@ -11,6 +15,7 @@
       "fieldName": "code",
       "fieldClass": "code-cell",
       "sortable": true,
+      "filterable": true,
       "type": "numeric",
       "responsive": "sm",
       "style": {
@@ -23,6 +28,7 @@
       "fieldName": "birth",
       "fieldClass": "year-cell",
       "sortable": true,
+      "filterable": true,
       "type": "numeric",
       "responsive": "sm",
       "style": {
@@ -76,6 +82,7 @@
       "fieldName": "description",
       "fieldClass": "description-cell",
       "sortable": true,
+      "filterable": true,
       "type": "string",
       "responsive": "md",
       "style": {
